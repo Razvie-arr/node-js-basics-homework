@@ -1,12 +1,5 @@
 import fs from 'node:fs/promises';
-
-async function getFileContents(filePath) {
-    try {
-        return await fs.readFile(filePath, {encoding: 'utf8'});
-    } catch (error) {
-        throw new Error(`Failed to read file: ${filePath}. \nError message: ${error.message}`);
-    }
-}
+import {getFileContents} from "../common/getFileContents.mjs";
 
 async function main() {
     try {

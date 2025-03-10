@@ -1,0 +1,25 @@
+{
+  "name": "node-js-basics-homework",
+  "version": "1.0.0",
+  "description": "Project for homework assignments for subject Basics of Node.js in VSE university",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Razvie-arr/node-js-basics-homework.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Razvie-arr/node-js-basics-homework/issues"
+  },
+  "homepage": "https://github.com/Razvie-arr/node-js-basics-homework#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "eslint": "^9.22.0",
+    "globals": "^16.0.0",
+    "prettier": "3.5.3"
+  }
+}
