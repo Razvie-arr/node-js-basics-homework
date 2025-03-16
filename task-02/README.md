@@ -1,4 +1,4 @@
-# Assignment
+# Task 2
 
 Using the `fs/promises` module and async/await, write the following program:
 

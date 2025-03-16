@@ -1,4 +1,4 @@
-# File Copy Program
+# Task 1
 
 
 Create a program that copies the contents of one file to another based on simple instructions.
