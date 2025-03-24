@@ -14,12 +14,12 @@
 <ul>
     <% for (const todo of todos) { %>
     <li>
-        <%= todo.title %> - <% if (todo.done) { %>
-        <a href="/todos/<%= todo.id %>/toggle">dokončeno</a>
-        <a href="/todos/<%= todo.id %>/remove">odebrat</a>
+        <a href="/todos/<%= todo.id %>"><%= todo.title %></a> - <% if (todo.done) { %>
+        <a href="/todos/<%= todo.id %>/toggle">Completed</a>
+        <a href="/todos/<%= todo.id %>/remove">Remove</a>
         <% } else { %>
         <a href="/todos/<%= todo.id %>/toggle"
-        >nedokončeno</a
+        >Not completed</a
         >
         <% } %>
     </li>
@@ -30,7 +30,7 @@
     <label>
         <input name="title" />
     </label>
-    <button type="submit">Přidat todo</button>
+    <button type="submit">Add todo</button>
 </form>
 </body>
 </html>
