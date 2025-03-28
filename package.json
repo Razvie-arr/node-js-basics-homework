@@ -26,6 +26,9 @@
   "dependencies": {
     "@hono/node-server": "^1.14.0",
     "ejs": "^3.1.10",
-    "hono": "^4.7.5"
+    "hono": "^4.7.5",
+    "@libsql/client": "^0.15.1",
+    "drizzle-kit": "^0.30.5",
+    "drizzle-orm": "^0.41.0"
   }
 }
