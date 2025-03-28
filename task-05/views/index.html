@@ -9,6 +9,13 @@
         <title>Document</title>
     </head>
     <body>
+    <%
+        const priorityColors = {
+        low: 'green',
+        normal: 'orange',
+        high: 'red'
+        };
+    %>
         <h1><%= title.toUpperCase() %></h1>
 
         <ul>
@@ -17,6 +24,10 @@
                 <a href="/todos/<%= todo.id %>">
                     <%= todo.title %>
                 </a>
+                - <span style="color: <%= priorityColors[todo.priority]%>;">
+                <%= todo.priority %>
+                </span>
+
                 - <% if (todo.done) { %>
                 <a href="/todos/<%= todo.id %>/toggle"
                     >dokončeno</a

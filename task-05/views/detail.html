@@ -9,9 +9,21 @@
         <title>Document</title>
     </head>
     <body>
+        <%
+            const priorities = {
+                low: 'green',
+                normal: 'orange',
+                high: 'red'
+            };
+        %>
+
         <a href="/">Todočka</a>
         <hr />
         <h1><%= todo.title %></h1>
+        Priorita -
+        <span style="color: <%= priorities[todo.priority]%>;">
+                <%= todo.priority %>
+        </span>
         <hr />
         <% if (todo.done) { %>
         <a href="/todos/<%= todo.id %>/toggle">dokončeno</a>
@@ -24,8 +36,18 @@
         <hr />
         <h2>Upravit todočko</h2>
         <form action="/todos/<%= todo.id %>" method="post">
-            <label>Titulek</label>
-            <input name="title" value="<%= todo.title %>" />
+            <label for="title">Titulek</label>
+            <input id="title" name="title" value="<%= todo.title %>" />
+
+            <label for="priority">Priorita</label>
+            <select name="priority" id="priority">
+                <% for (const key in priorities) { %>
+                <option value="<%= key %>" <%= todo.priority === key ? 'selected' : '' %>>
+                <%= key %>
+                </option>
+                <% } %>
+            </select>
+
             <button type="submit">Uložit</button>
         </form>
     </body>

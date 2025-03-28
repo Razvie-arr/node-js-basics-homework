@@ -1,0 +1,1 @@
+ALTER TABLE `todos` ADD `category` text DEFAULT 'Úkoly' NOT NULL;

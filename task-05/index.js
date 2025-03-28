@@ -7,15 +7,20 @@ import { drizzle } from 'drizzle-orm/libsql';
 import { todosTable } from './src/schema.js';
 import { eq } from 'drizzle-orm';
 
-const db = drizzle({ connection: 'file:db.sqlite' });
+const db = drizzle({
+    connection: 'file:db.sqlite',
+    logger: true,
+});
 
 const app = new Hono();
+const allowedPriorities = ['low', 'normal', 'high'];
 
 app.use(logger());
 app.use(serveStatic({ root: 'public' }));
 
 app.get('/', async (c) => {
-    const todos = await getTodos()
+    const todos = await db.select().from(todosTable).all();
+
     const index = await renderFile('views/index.html', {
         title: 'My todo app',
         todos,
@@ -29,8 +34,8 @@ app.post('/todos', async (c) => {
 
     await db.insert(todosTable).values({
         title: form.get('title'),
-        done: false
-    })
+        done: false,
+    });
 
     return c.redirect('/');
 });
@@ -52,13 +57,22 @@ app.get('/todos/:id', async (c) => {
 app.post('/todos/:id', async (c) => {
     const id = Number(c.req.param('id'));
 
-    const todo = await getTodoById(id)
+    const todo = await getTodoById(id);
 
     if (!todo) return c.notFound();
 
     const form = await c.req.formData();
 
-    todo.title = form.get('title');
+    const previousPriority = todo.priority;
+    const inputPriority = form.get('priority');
+    const newPriority = allowedPriorities.includes(inputPriority)
+        ? inputPriority
+        : previousPriority;
+
+    await db
+        .update(todosTable)
+        .set({ title: form.get('title'), priority: newPriority })
+        .where(eq(todosTable.id, id));
 
     return c.redirect(c.req.header('Referer'));
 });
@@ -81,29 +95,25 @@ app.get('/todos/:id/toggle', async (c) => {
 app.get('/todos/:id/remove', async (c) => {
     const id = Number(c.req.param('id'));
 
-    const todo = getTodoById(id)
+    const todo = await getTodoById(id);
 
     if (!todo) return c.notFound();
 
-    await db.delete(todosTable).where(eq(todosTable.id, id))
+    await db.delete(todosTable).where(eq(todosTable.id, id));
 
     return c.redirect('/');
 });
 
 serve(app, (info) => {
-    console.log(
-        `App started on http://localhost:${info.port}`,
-    );
+    console.log(`App started on http://localhost:${info.port}`);
 });
 
 const getTodoById = async (id) => {
-    return db
+    const todo = await db
         .select()
         .from(todosTable)
         .where(eq(todosTable.id, id))
         .get();
-}
 
-const getTodos = async () => {
-    return await db.select().from(todosTable).all();
-}
+    return todo;
+};
